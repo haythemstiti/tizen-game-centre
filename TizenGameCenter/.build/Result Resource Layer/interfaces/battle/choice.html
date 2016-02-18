@@ -1,0 +1,513 @@
+<!doctype html>
+<html>
+<head>
+	<title></title>
+	<script src="js/jquery.js"></script>
+	<script src="../../js/main2.js"></script>
+</head>
+<body  onload="connect();" style='background: url("img/water.jpg")'>
+
+	<style>
+		table 
+		{
+			border : 1px black solid;
+		}
+		table *
+		{
+			margin: 0px;
+			padding: 0px;
+		}
+		tr
+		{
+		}
+		td
+		{	
+			margin: 0px;
+			padding: 0px;
+			width: 64px;
+			height: 55px;
+			border: 1px solid black;
+		}
+		.boatRearTop
+		{
+			background: url("img/boatbot_top.png") center no-repeat !important;
+			background-size: contain !important;
+		}
+		.boatFrontTop
+		{
+			background: url("img/boatfront_top.png") center no-repeat !important;
+			background-size: contain !important;
+		}
+		.boatMidTop
+		{
+			background: url("img/boatmid_top.png") center no-repeat !important;
+			background-size: contain !important;
+		}
+		.boatRearBot
+		{
+			background: url("img/boatfront_top.png") center no-repeat !important;
+			background-size: contain !important;
+		}
+		.boatFrontBot
+		{
+			background: url("img/boatbot_top.png") center no-repeat !important;
+			background-size: contain !important;
+		}
+		.boatMidBot
+		{
+			background: url("img/boatmid_top.png") center no-repeat !important;
+			background-size: contain !important;
+		}
+		.boatRearLeft
+		{
+			background: url("img/boatfront_right.png") center no-repeat !important;
+			background-size: contain !important;
+		}
+		.boatFrontLeft
+		{
+			background: url("img/boatbot_right.png") center no-repeat !important;
+			background-size: contain !important;
+		}
+		.boatMidLeft
+		{
+			background: url("img/boatmid_right.png") center no-repeat !important;
+			background-size: contain !important;
+		}
+		.boatRearRight
+		{
+			background: url("img/boatbot_right.png") center no-repeat !important;
+			background-size: contain !important;
+		}
+		.boatFrontRight
+		{
+			background: url("img/boatfront_right.png") center no-repeat !important;
+			background-size: contain !important;
+		}
+		.boatMidRight
+		{
+			background: url("img/boatmid_right.png") center no-repeat !important;
+			background-size: contain !important;
+		}
+	</style>
+	
+	<table>
+		<tr id="line1">
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr id="line2">
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr id="line3">
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr id="line4">
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr id="line5">
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+	</table>
+	<script>
+		tizen.power.request("SCREEN", "SCREEN_NORMAL");
+		function connected()
+{
+	
+	block = false;
+	}
+		var isPlacing = false;
+		var boat1 = "empty";
+		var boat2 = "empty";
+		var currentShipSize = 3;
+		var tabTop = new Array();
+		var tabLeft = new Array();
+		var tabRight = new Array();
+		var tabBot = new Array();
+		var battleShipOf3 = new Array();
+		var battleShipOf2 = new Array();
+		var game = window.localStorage.getItem("game_name");
+		var userid = window.localStorage.getItem("id");
+		
+		function bindEmAll()
+		{
+			$("tr:nth-child(1) td:nth-child(1):not(.chosen)").bind("click",function(){choice(1,1);});
+			$("tr:nth-child(1) td:nth-child(2):not(.chosen)").bind("click",function(){choice(1,2);});
+			$("tr:nth-child(1) td:nth-child(3):not(.chosen)").bind("click",function(){choice(1,3);});
+			$("tr:nth-child(1) td:nth-child(4):not(.chosen)").bind("click",function(){choice(1,4);});
+			$("tr:nth-child(1) td:nth-child(5):not(.chosen)").bind("click",function(){choice(1,5);});
+			
+			$("tr:nth-child(2) td:nth-child(1):not(.chosen)").bind("click",function(){choice(2,1);});
+			$("tr:nth-child(2) td:nth-child(2):not(.chosen)").bind("click",function(){choice(2,2);});
+			$("tr:nth-child(2) td:nth-child(3):not(.chosen)").bind("click",function(){choice(2,3);});
+			$("tr:nth-child(2) td:nth-child(4):not(.chosen)").bind("click",function(){choice(2,4);});
+			$("tr:nth-child(2) td:nth-child(5):not(.chosen)").bind("click",function(){choice(2,5);});
+
+			$("tr:nth-child(3) td:nth-child(1):not(.chosen)").bind("click",function(){choice(3,1);});
+			$("tr:nth-child(3) td:nth-child(2):not(.chosen)").bind("click",function(){choice(3,2);});
+			$("tr:nth-child(3) td:nth-child(3):not(.chosen)").bind("click",function(){choice(3,3);});
+			$("tr:nth-child(3) td:nth-child(4):not(.chosen)").bind("click",function(){choice(3,4);});
+			$("tr:nth-child(3) td:nth-child(5):not(.chosen)").bind("click",function(){choice(3,5);});
+
+			$("tr:nth-child(4) td:nth-child(1):not(.chosen)").bind("click",function(){choice(4,1);});
+			$("tr:nth-child(4) td:nth-child(2):not(.chosen)").bind("click",function(){choice(4,2);});
+			$("tr:nth-child(4) td:nth-child(3):not(.chosen)").bind("click",function(){choice(4,3);});
+			$("tr:nth-child(4) td:nth-child(4):not(.chosen)").bind("click",function(){choice(4,4);});
+			$("tr:nth-child(4) td:nth-child(5):not(.chosen)").bind("click",function(){choice(4,5);});
+
+			$("tr:nth-child(5) td:nth-child(1):not(.chosen)").bind("click",function(){choice(5,1);});
+			$("tr:nth-child(5) td:nth-child(2):not(.chosen)").bind("click",function(){choice(5,2);});
+			$("tr:nth-child(5) td:nth-child(3):not(.chosen)").bind("click",function(){choice(5,3);});
+			$("tr:nth-child(5) td:nth-child(4):not(.chosen)").bind("click",function(){choice(5,4);});
+			$("tr:nth-child(5) td:nth-child(5):not(.chosen)").bind("click",function(){choice(5,5);});
+		}
+		function recieved(data)
+{
+	if (data.trim().split("-")[0] == "SENT")
+		{
+		window.localStorage.setItem("game_id",data.trim().split("-")[1]);
+		window.location.href = "index.html"	
+}}
+		$(document).ready(function(){
+
+			bindEmAll();
+			var thread = setInterval( function (){
+				console.log("thread lunched");
+				if (currentShipSize != 1) return;
+				console.warn("saving..");
+				res = "{\"bigShip\": {";
+				battleShipOf3.forEach(function (entry,index)
+				{
+					obj = JSON.parse(entry);
+					if (index<3) res += "\"p"+(index+1)+"\" : ["+obj.i+","+obj.j+"]";
+					if (index<2) res += ",";
+				});
+				res += "}, \"smallShip\": {";
+				battleShipOf2.forEach(function (entry,index)
+				{
+					obj = JSON.parse(entry);
+					if (index<2) res += "\"p"+(index+1)+"\" : ["+obj.i+","+obj.j+"]";
+					if (index<1) res += ",";
+				});
+				res += "}}";
+				window.localStorage.setItem("boats",res);
+				clearInterval(thread);
+				console.error("saved");
+				if (window.localStorage.getItem("created") != null) 
+				{
+					block = true;
+					fetch("game.php-POST-{\"name\" : \""+game+"\",\"desc\" : \"0\",\"id_host\" : \""+userid+"\"}");
+				} 
+				else {window.location.href= "index.html";}
+			
+			},20);
+
+		});
+
+		function choice (i,j)
+		{
+
+			if (currentShipSize == 1) return;
+
+			tabTop = new Array();
+			tabLeft = new Array();
+			tabRight = new Array();
+			tabBot = new Array();
+			if (isPlacing) return;
+
+			var showLeft = false, showRight = false;
+			var showTop = false, showBot = false;
+
+			if (currentShipSize == 3)
+			{
+
+				if (j < currentShipSize)
+				{
+					showRight = true;
+				}
+				else if (j > currentShipSize)
+				{
+					showLeft = true;
+				}
+				else 
+				{
+					showRight = true;
+					showLeft = true;
+				}
+
+				if (i < currentShipSize)
+				{
+					showBot = true;
+				}
+				else if (i > currentShipSize)
+				{
+					showTop = true;
+				}
+				else
+				{
+					showTop = true;
+					showBot = true;
+				}
+	
+			}
+
+			if (currentShipSize == 2)
+			{
+
+				if (j >= currentShipSize)
+				{
+					showRight = true;
+					showLeft = true;
+				}
+				else
+				{
+					showRight = true;
+				}
+
+				if (i >= currentShipSize)
+				{
+					showTop = true;
+					showBot = true;
+				} 
+				else 
+				{
+					showBot = true;
+				}
+
+			}
+			
+			if (showTop)
+			{
+				for (var a=i; a>i-currentShipSize; a--)
+				{
+					if ($("tr:nth-child("+a+") td:nth-child("+j+")").hasClass("chosen"))
+						showTop = false;
+				}
+			}
+
+			if (showBot)
+			{
+				for (var z=i; z<i+currentShipSize; z++)
+				{
+					if ($("tr:nth-child("+z+") td:nth-child("+j+")").hasClass("chosen"))
+						showBot = false;
+				}
+			}
+
+			if (showLeft)
+			{
+				for (var e=j; e>j-currentShipSize; e--)
+				{
+					if ($("tr:nth-child("+i+") td:nth-child("+e+")").hasClass("chosen"))
+						showLeft = false;
+				}
+			}
+
+			if (showRight)
+			{
+				for (var r=j; r<j+currentShipSize; r++)
+				{
+					if ($("tr:nth-child("+i+") td:nth-child("+r+")").hasClass("chosen"))
+						showRight = false;
+				}
+			}
+
+			if (showTop)
+			{
+				for (var v=i; v>i-currentShipSize; v--)
+				{
+					tabTop.push("{\"i\": \""+ v +"\", \"j\": \""+j+"\"}");
+					$("tr:nth-child("+v+") td:nth-child("+j+")").unbind();
+					$("tr:nth-child("+v+") td:nth-child("+j+")").css("background-color","#2980b9");
+					$("tr:nth-child("+v+") td:nth-child("+j+")").click(chooseTop);	
+				}
+			}
+			if (showBot)
+			{
+				for (var w=i; w<i+currentShipSize; w++)
+				{
+					tabBot.push("{\"i\": \""+ w +"\", \"j\": \""+j+"\"}");
+					$("tr:nth-child("+w+") td:nth-child("+j+")").unbind();
+					$("tr:nth-child("+w+") td:nth-child("+j+")").css("background-color","#2980b9");
+					$("tr:nth-child("+w+") td:nth-child("+j+")").click(chooseBot);	
+				}
+			}
+			if (showLeft)
+			{
+				for (var x=j; x>j-currentShipSize; x--)
+				{
+					tabLeft.push("{\"i\": \""+ i +"\", \"j\": \""+x+"\"}");
+					$("tr:nth-child("+i+") td:nth-child("+x+")").unbind();
+					$("tr:nth-child("+i+") td:nth-child("+x+")").css("background-color","#2980b9");
+					$("tr:nth-child("+i+") td:nth-child("+x+")").click(chooseLeft);	
+				}
+			}
+			if (showRight)
+			{
+				for (var y=j; y<j+currentShipSize; y++)
+				{
+					tabRight.push("{\"i\": \""+ i +"\", \"j\": \""+y+"\"}");
+					$("tr:nth-child("+i+") td:nth-child("+y+")").unbind();
+					$("tr:nth-child("+i+") td:nth-child("+y+")").css("background-color","#2980b9");
+					$("tr:nth-child("+i+") td:nth-child("+y+")").click(chooseRight);
+				}
+			}
+			
+			if (showRight || showLeft || showBot || showTop)
+			{
+				$("tr:nth-child("+i+") td:nth-child("+j+")").css("background-color","black");
+				$("tr:nth-child("+i+") td:nth-child("+j+")").css("opacity","0.5");
+				$("tr td").css("opacity","0.7");
+				$("tr:nth-child("+i+") td:nth-child("+j+")").unbind();
+				$("tr:nth-child("+i+") td:nth-child("+j+")").click(didntChoose);
+				isPlacing = true;
+			}
+
+			console.log("    "+showTop);
+			console.log(showLeft+" "+showRight);
+			console.log("    "+showBot);
+		}
+
+		function chooseTop()
+		{
+			tabTop.forEach(function (entry)
+			{
+				obj = JSON.parse(entry);
+				$("tr:nth-child("+obj.i+") td:nth-child("+obj.j+")").css("background-color","green");
+				$("tr:nth-child("+obj.i+") td:nth-child("+obj.j+")").addClass("chosen");
+				if (currentShipSize == 3)
+				{
+					battleShipOf3.push("{\"i\": \""+ obj.i +"\", \"j\": \""+obj.j+"\"}");
+					boat1 = "Top";
+				}
+				else if (currentShipSize == 2)
+				{
+					battleShipOf2.push("{\"i\": \""+ obj.i +"\", \"j\": \""+obj.j+"\"}");
+					boat2 = "Top";
+				}
+			});
+			nextShip(currentShipSize-1);
+			refresh();
+		}
+		function chooseBot()
+		{
+			tabBot.forEach(function (entry)
+			{
+				obj = JSON.parse(entry);
+				$("tr:nth-child("+obj.i+") td:nth-child("+obj.j+")").css("background-color","green");
+				$("tr:nth-child("+obj.i+") td:nth-child("+obj.j+")").addClass("chosen");
+				if (currentShipSize == 3)
+				{
+					battleShipOf3.push("{\"i\": \""+ obj.i +"\", \"j\": \""+obj.j+"\"}");
+					boat1 = "Bot";
+				}
+				else if (currentShipSize == 2)
+				{
+					battleShipOf2.push("{\"i\": \""+ obj.i +"\", \"j\": \""+obj.j+"\"}");
+					boat2 = "Bot";
+				}
+			});
+			nextShip(currentShipSize-1);
+			refresh();
+		}
+		function chooseLeft()
+		{
+			tabLeft.forEach(function (entry)
+			{
+				obj = JSON.parse(entry);
+				$("tr:nth-child("+obj.i+") td:nth-child("+obj.j+")").css("background-color","green");
+				$("tr:nth-child("+obj.i+") td:nth-child("+obj.j+")").addClass("chosen");
+				if (currentShipSize == 3)
+				{
+					battleShipOf3.push("{\"i\": \""+ obj.i +"\", \"j\": \""+obj.j+"\"}");
+					boat1 = "Left";
+				}
+				else if (currentShipSize == 2)
+				{
+					battleShipOf2.push("{\"i\": \""+ obj.i +"\", \"j\": \""+obj.j+"\"}");
+					boat2 = "Left";
+				}
+			});
+			nextShip(currentShipSize-1);
+			refresh();
+		}
+		function chooseRight()
+		{
+			tabRight.forEach(function (entry)
+			{
+				obj = JSON.parse(entry);
+				$("tr:nth-child("+obj.i+") td:nth-child("+obj.j+")").css("background-color","green");
+				$("tr:nth-child("+obj.i+") td:nth-child("+obj.j+")").addClass("chosen");
+				if (currentShipSize == 3)
+				{
+					battleShipOf3.push("{\"i\": \""+ obj.i +"\", \"j\": \""+obj.j+"\"}");
+					boat1 = "Right";
+				}
+				else if (currentShipSize == 2)
+				{
+					battleShipOf2.push("{\"i\": \""+ obj.i +"\", \"j\": \""+obj.j+"\"}");
+					boat2 = "Right";
+				}
+			});
+			nextShip(currentShipSize-1);
+			refresh();
+		}
+		function didntChoose()
+		{
+			$("tr td").unbind();
+			$("tr td:not(.chosen)").css("background-color","transparent");
+			nextShip(currentShipSize);
+			bindEmAll();
+		}
+
+		function nextShip(size)
+		{
+			currentShipSize = size;
+			isPlacing = false;
+		}
+		function refresh()
+		{
+			$("tr td").unbind();
+			$("tr td").css("opacity","1");
+			$("tr td:not(.chosen)").css("background-color","transparent");
+			battleShipOf3.forEach(function (entry,index)
+			{
+				obj = JSON.parse(entry);
+				if (index == 0) 
+					$("tr:nth-child("+obj.i+") td:nth-child("+obj.j+")").addClass("boatRear"+boat1);
+				else if (index == 1) 
+					$("tr:nth-child("+obj.i+") td:nth-child("+obj.j+")").addClass("boatMid"+boat1);
+				else if (index == 2) 
+					$("tr:nth-child("+obj.i+") td:nth-child("+obj.j+")").addClass("boatFront"+boat1);				
+			});
+			battleShipOf2.forEach(function (entry,index)
+			{
+				obj = JSON.parse(entry);
+				if (index == 0) 
+					$("tr:nth-child("+obj.i+") td:nth-child("+obj.j+")").addClass("boatRear"+boat2);
+				else if (index == 1) 
+					$("tr:nth-child("+obj.i+") td:nth-child("+obj.j+")").addClass("boatFront"+boat2);		
+			});
+			bindEmAll();
+		}
+	</script>
+</body>
+</html>

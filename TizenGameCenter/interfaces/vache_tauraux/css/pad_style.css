@@ -1,0 +1,135 @@
+table
+{
+	margin-top: 30px !important;
+	margin-bottom: 0px !important;
+	background-color : #222 !important;
+	border: 0 !important;
+	padding: 0 !important;
+	color: white;
+	font-size: 16px;
+}
+table *
+{
+	background-color : #222 !important;
+	color: white;
+	font-weight: bold;
+	font-size: 24px;
+}
+ tr td:nth-child(1)
+		{
+			font-size: 32px;
+			font-weight: bold;
+		}
+td
+		{
+			width: 100px;
+			height: 60px;
+		} 
+		#pad tr:nth-child(1) td:nth-child(1)
+		{
+			background-image: url("../img/hud_1.png");
+			background-position: center center;
+			background-repeat: no-repeat;
+		}
+		#pad tr:nth-child(1) td:nth-child(2)
+		{
+			background-image: url("../img/hud_2.png");
+			background-position: center center;
+			background-repeat: no-repeat;
+		}
+		#pad tr:nth-child(1) td:nth-child(3)
+		{
+			background-image: url("../img/hud_3.png");
+			background-position: center center;
+			background-repeat: no-repeat;
+		}
+		#pad tr:nth-child(2) td:nth-child(1)
+		{
+			background-image: url("../img/hud_4.png");
+			background-position: center center;
+			background-repeat: no-repeat;
+		}
+		#pad tr:nth-child(2) td:nth-child(2)
+		{
+			background-image: url("../img/hud_5.png");
+			background-position: center center;
+			background-repeat: no-repeat;
+		}
+		#pad tr:nth-child(2) td:nth-child(3)
+		{
+			background-image: url("../img/hud_6.png");
+			background-position: center center;
+			background-repeat: no-repeat;
+		}
+		#pad tr:nth-child(3) td:nth-child(1)
+		{
+			background-image: url("../img/hud_7.png");
+			background-position: center center;
+			background-repeat: no-repeat;
+		}
+		#pad tr:nth-child(3) td:nth-child(2)
+		{
+			background-image: url("../img/hud_8.png");
+			background-position: center center;
+			background-repeat: no-repeat;
+		}
+		#pad tr:nth-child(3) td:nth-child(3)
+		{
+			background-image: url("../img/hud_9.png");
+			background-position: center center;
+			background-repeat: no-repeat;
+		}
+		#pad tr:nth-child(1) td:nth-child(1).clicked
+		{
+			background-image: url("../img/hu_1.png") !important;
+			background-position: center center;
+			background-repeat: no-repeat;
+		}
+		#pad tr:nth-child(1) td:nth-child(2).clicked
+		{
+			background-image: url("../img/hu_2.png") !important;
+			background-position: center center;
+			background-repeat: no-repeat;
+		}
+		#pad tr:nth-child(1) td:nth-child(3).clicked
+		{
+			background-image: url("../img/hu_3.png") !important;
+			background-position: center center;
+			background-repeat: no-repeat;
+		}
+		#pad tr:nth-child(2) td:nth-child(1).clicked
+		{
+			background-image: url("../img/hu_4.png") !important;
+			background-position: center center;
+			background-repeat: no-repeat;
+		}
+		#pad tr:nth-child(2) td:nth-child(2).clicked
+		{
+			background-image: url("../img/hu_5.png") !important;
+			background-position: center center;
+			background-repeat: no-repeat;
+		}
+		#pad tr:nth-child(2) td:nth-child(3).clicked
+		{
+			background-image: url("../img/hu_6.png") !important;
+			background-position: center center;
+			background-repeat: no-repeat;
+		}
+		#pad tr:nth-child(3) td:nth-child(1).clicked
+		{
+			background-image: url("../img/hu_7.png") !important;
+			background-position: center center;
+			background-repeat: no-repeat;
+		}
+		#pad tr:nth-child(3) td:nth-child(2).clicked
+		{
+			background-image: url("../img/hu_8.png") !important;
+			background-position: center center;
+			background-repeat: no-repeat;
+		}
+		#pad tr:nth-child(3) td:nth-child(3).clicked
+		{
+			background-image: url("../img/hu_9.png") !important;
+			background-position: center center;
+			background-repeat: no-repeat;
+		}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+	<title>Game Center</title>
+	<link rel="stylesheet"  href="../../css/tau.min.css">
+	<link rel="stylesheet"  href="css/style.css">
+	<script src="../../js/jquery.js"></script>
+	<script src="../../js/main2.js"></script>
+	<!-- <script src="../../js/test.js"></script> -->
+	<!--
+	<script src="../../js/connect.js"></script>
+	<script src="../../js/communicate.js"></script>
+	  -->
+  
+</head>
+<body onclick="connected();" onload="connect();">
+<img src="pic.png" style="width:170px;margin:auto;display:block">
+<h1>Login using your phone</h1>
+<h3>To show the dialog again click anywhere</h3>
+<script>
+if (window.localStorage.getItem("id") != null) window.location.href="../game_type/index.html";
+	function connected()
+	{
+		if (window.localStorage.getItem("id") != null) window.location.href="../game_type/index.html";
+		fetch("id-ANDROID");
+	}
+	function recieved(data)
+	{
+		window.localStorage.setItem("id",data.trim());
+		window.location.href="../game_type/index.html";
+	}
+	
+</script>
+</body>
+</html>

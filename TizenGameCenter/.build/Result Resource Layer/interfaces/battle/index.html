@@ -1,0 +1,354 @@
+<!doctype html>
+<html>
+<head>
+	<title></title>
+	<script src="js/jquery.js"></script>
+	<script src="../../js/main2.js"></script>
+	  <link rel="stylesheet" href="css/iosOverlay.css">
+  <link rel="stylesheet" href="css/prettify.css">
+  <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../../bootstrap/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="css/style_game.css">
+</head>
+<body style='background: url("img/water.jpg"); color: white' onload="connect();">
+	
+	<style>
+		table 
+		{
+			border : 1px black solid;
+		}
+		table *
+		{
+			margin: 0px;
+			padding: 0px;
+		}
+		tr
+		{
+		}
+		td
+		{	
+			margin: 0px;
+			padding: 0px;
+			width: 64px;
+			height: 55px;
+			border: 1px solid black;
+		}
+		.chosen
+		{
+			background-color: gray !important;
+			opacity: 0.7;
+		}
+		.hit
+		{
+			background: url("img/explosion.gif") center transparent no-repeat !important;
+			background-size: contain !important;
+		}
+		#mine .hit
+		{
+			background: url("img/explosion.gif") center green no-repeat !important;
+			background-size: contain !important;
+		}
+		#enemy, #mine
+		{
+			margin-top: 40px;
+		}
+
+	</style>
+	<div class="ui-page">
+	<table id="enemy">
+		<tr id="line1">
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr id="line2">
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr id="line3">
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr id="line4">
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr id="line5">
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+	</table>
+	<table id="mine">
+		<tr id="line1">
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr id="line2">
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr id="line3">
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr id="line4">
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr id="line5">
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+	</table>
+	<script>
+	$("#mine").hide();
+
+	</script>
+	</div>	<script src="js/iosOverlay.js"></script>
+  <script src="js/spin.min.js"></script>
+  <script src="js/prettify.js"></script>
+  <nav class="navbar navbar-fixed-left navbar-minimal animate" role="navigation">
+		<div class="navbar-toggler animate">
+			<span class="menu-icon"></span>
+		</div>
+		<ul class="navbar-menu animate">
+			<li>
+				<a href="#about-us" id="about-us" class="animate">
+					<span class="desc animate" style="font-size: 24px"> Your Navy </span>
+					<span style="font-size: 24px" class="glyphicon glyphicon-user"></span>
+				</a>
+			</li>
+			<li>
+				<a href="#blog" id="blog" class="animate">
+					<span class="desc animate" style="font-size: 24px"> Opponent's Navy </span>
+					<span style="font-size: 24px" class="glyphicon glyphicon-screenshot"></span>
+				</a>
+			</li>
+		</ul>
+	</nav>
+	<script>
+	$(function () {
+	    if (window.location == window.parent.location) { 
+	    $('#about-us').on('click', function(event) {
+	        $("#mine").show();
+	        $("#enemy").hide();
+	    });
+	     $('#blog').on('click', function(event) {
+	        $("#mine").hide();
+	        $("#enemy").show();
+	    });
+	    
+	    $('.navbar-toggler').on('click', function(event) {
+			event.preventDefault();
+			$(this).closest('.navbar-minimal').toggleClass('open');
+		});
+	}
+});
+	</script>
+	<script>
+		var mine = JSON.parse(window.localStorage.getItem("boats"));
+		var enemy;
+		var block = true;
+		var overlay;
+
+		$("#mine tr:nth-child("+mine.bigShip.p1[0]+") td:nth-child("+mine.bigShip.p1[1]+")").css("background-color","green");
+		$("#mine tr:nth-child("+mine.bigShip.p2[0]+") td:nth-child("+mine.bigShip.p2[1]+")").css("background-color","green");
+		$("#mine tr:nth-child("+mine.bigShip.p3[0]+") td:nth-child("+mine.bigShip.p3[1]+")").css("background-color","green");
+		$("#mine tr:nth-child("+mine.smallShip.p1[0]+") td:nth-child("+mine.smallShip.p1[1]+")").css("background-color","green");
+		$("#mine tr:nth-child("+mine.smallShip.p2[0]+") td:nth-child("+mine.smallShip.p2[1]+")").css("background-color","green");
+
+		function bindEmAll()
+		{
+			$("#enemy tr:nth-child(1) td:nth-child(1):not(.chosen)").bind("click",function(){destroy(1,1);});
+			$("#enemy tr:nth-child(1) td:nth-child(2):not(.chosen)").bind("click",function(){destroy(1,2);});
+			$("#enemy tr:nth-child(1) td:nth-child(3):not(.chosen)").bind("click",function(){destroy(1,3);});
+			$("#enemy tr:nth-child(1) td:nth-child(4):not(.chosen)").bind("click",function(){destroy(1,4);});
+			$("#enemy tr:nth-child(1) td:nth-child(5):not(.chosen)").bind("click",function(){destroy(1,5);});
+			
+			$("#enemy tr:nth-child(2) td:nth-child(1):not(.chosen)").bind("click",function(){destroy(2,1);});
+			$("#enemy tr:nth-child(2) td:nth-child(2):not(.chosen)").bind("click",function(){destroy(2,2);});
+			$("#enemy tr:nth-child(2) td:nth-child(3):not(.chosen)").bind("click",function(){destroy(2,3);});
+			$("#enemy tr:nth-child(2) td:nth-child(4):not(.chosen)").bind("click",function(){destroy(2,4);});
+			$("#enemy tr:nth-child(2) td:nth-child(5):not(.chosen)").bind("click",function(){destroy(2,5);});
+
+			$("#enemy tr:nth-child(3) td:nth-child(1):not(.chosen)").bind("click",function(){destroy(3,1);});
+			$("#enemy tr:nth-child(3) td:nth-child(2):not(.chosen)").bind("click",function(){destroy(3,2);});
+			$("#enemy tr:nth-child(3) td:nth-child(3):not(.chosen)").bind("click",function(){destroy(3,3);});
+			$("#enemy tr:nth-child(3) td:nth-child(4):not(.chosen)").bind("click",function(){destroy(3,4);});
+			$("#enemy tr:nth-child(3) td:nth-child(5):not(.chosen)").bind("click",function(){destroy(3,5);});
+
+			$("#enemy tr:nth-child(4) td:nth-child(1):not(.chosen)").bind("click",function(){destroy(4,1);});
+			$("#enemy tr:nth-child(4) td:nth-child(2):not(.chosen)").bind("click",function(){destroy(4,2);});
+			$("#enemy tr:nth-child(4) td:nth-child(3):not(.chosen)").bind("click",function(){destroy(4,3);});
+			$("#enemy tr:nth-child(4) td:nth-child(4):not(.chosen)").bind("click",function(){destroy(4,4);});
+			$("#enemy tr:nth-child(4) td:nth-child(5):not(.chosen)").bind("click",function(){destroy(4,5);});
+
+			$("#enemy tr:nth-child(5) td:nth-child(1):not(.chosen)").bind("click",function(){destroy(5,1);});
+			$("#enemy tr:nth-child(5) td:nth-child(2):not(.chosen)").bind("click",function(){destroy(5,2);});
+			$("#enemy tr:nth-child(5) td:nth-child(3):not(.chosen)").bind("click",function(){destroy(5,3);});
+			$("#enemy tr:nth-child(5) td:nth-child(4):not(.chosen)").bind("click",function(){destroy(5,4);});
+			$("#enemy tr:nth-child(5) td:nth-child(5):not(.chosen)").bind("click",function(){destroy(5,5);});
+			
+		}
+		function bindEmAllMine()
+		{
+			$("#mine tr:nth-child(1) td:nth-child(1):not(.chosen)").bind("click",function(){destroy(1,1);});
+			$("#mine tr:nth-child(1) td:nth-child(2):not(.chosen)").bind("click",function(){destroy(1,2);});
+			$("#mine tr:nth-child(1) td:nth-child(3):not(.chosen)").bind("click",function(){destroy(1,3);});
+			$("#mine tr:nth-child(1) td:nth-child(4):not(.chosen)").bind("click",function(){destroy(1,4);});
+			$("#mine tr:nth-child(1) td:nth-child(5):not(.chosen)").bind("click",function(){destroy(1,5);});
+			
+			$("#mine tr:nth-child(2) td:nth-child(1):not(.chosen)").bind("click",function(){destroy(2,1);});
+			$("#mine tr:nth-child(2) td:nth-child(2):not(.chosen)").bind("click",function(){destroy(2,2);});
+			$("#mine tr:nth-child(2) td:nth-child(3):not(.chosen)").bind("click",function(){destroy(2,3);});
+			$("#mine tr:nth-child(2) td:nth-child(4):not(.chosen)").bind("click",function(){destroy(2,4);});
+			$("#mine tr:nth-child(2) td:nth-child(5):not(.chosen)").bind("click",function(){destroy(2,5);});
+
+			$("#mine tr:nth-child(3) td:nth-child(1):not(.chosen)").bind("click",function(){destroy(3,1);});
+			$("#mine tr:nth-child(3) td:nth-child(2):not(.chosen)").bind("click",function(){destroy(3,2);});
+			$("#mine tr:nth-child(3) td:nth-child(3):not(.chosen)").bind("click",function(){destroy(3,3);});
+			$("#mine tr:nth-child(3) td:nth-child(4):not(.chosen)").bind("click",function(){destroy(3,4);});
+			$("#mine tr:nth-child(3) td:nth-child(5):not(.chosen)").bind("click",function(){destroy(3,5);});
+
+			$("#mine tr:nth-child(4) td:nth-child(1):not(.chosen)").bind("click",function(){destroy(4,1);});
+			$("#mine tr:nth-child(4) td:nth-child(2):not(.chosen)").bind("click",function(){destroy(4,2);});
+			$("#mine tr:nth-child(4) td:nth-child(3):not(.chosen)").bind("click",function(){destroy(4,3);});
+			$("#mine tr:nth-child(4) td:nth-child(4):not(.chosen)").bind("click",function(){destroy(4,4);});
+			$("#mine tr:nth-child(4) td:nth-child(5):not(.chosen)").bind("click",function(){destroy(4,5);});
+
+			$("#mine tr:nth-child(5) td:nth-child(1):not(.chosen)").bind("click",function(){destroy(5,1);});
+			$("#mine tr:nth-child(5) td:nth-child(2):not(.chosen)").bind("click",function(){destroy(5,2);});
+			$("#mine tr:nth-child(5) td:nth-child(3):not(.chosen)").bind("click",function(){destroy(5,3);});
+			$("#mine tr:nth-child(5) td:nth-child(4):not(.chosen)").bind("click",function(){destroy(5,4);});
+			$("#mine tr:nth-child(5) td:nth-child(5):not(.chosen)").bind("click",function(){destroy(5,5);});
+			
+		}
+		
+		$(document).ready(function(){
+		var test = window.sessionStorage.getItem("joined");
+		if (test)
+		{
+		block = true;
+		var opts = {
+				lines: 13, // The number of lines to draw
+				length: 11, // The length of each line
+				width: 5, // The line thickness
+				radius: 17, // The radius of the inner circle
+				corners: 1, // Corner roundness (0..1)
+				rotate: 0, // The rotation offset
+				color: '#FFF', // #rgb or #rrggbb
+				speed: 1, // Rounds per second
+				trail: 60, // Afterglow percentage
+				shadow: false, // Whether to render a shadow
+				hwaccel: false, // Whether to use hardware acceleration
+				className: 'spinner', // The CSS class to assign to the spinner
+				zIndex: 2e9, // The z-index (defaults to 2000000000)
+				top: 'auto', // Top position relative to parent in px
+				left: 'auto' // Left position relative to parent in px
+			};
+			var target = document.createElement("div");
+			document.body.appendChild(target);
+			var spinner = new Spinner(opts).spin(target);
+			overlay = iosOverlay({
+				text: "Waiting for opponent..",
+				spinner: spinner
+			});
+			}
+			bindEmAll();
+		});
+
+		function destroy (i,j)
+		{
+			if (block) return;
+			move = (10*i)+j;
+			$("#enemy tr:nth-child("+i+") td:nth-child("+j+")").addClass("chosen");
+			if (enemy.bigShip.p1[0] == i && enemy.bigShip.p1[1] == j) 
+				$("#enemy tr:nth-child("+i+") td:nth-child("+j+")").addClass("hit");
+			if (enemy.bigShip.p2[0] == i && enemy.bigShip.p2[1] == j) 
+				$("#enemy tr:nth-child("+i+") td:nth-child("+j+")").addClass("hit");
+			if (enemy.bigShip.p3[0] == i && enemy.bigShip.p3[1] == j) 
+				$("#enemy tr:nth-child("+i+") td:nth-child("+j+")").addClass("hit");
+			if (enemy.smallShip.p1[0] == i && enemy.smallShip.p1[1] == j) 
+				$("#enemy tr:nth-child("+i+") td:nth-child("+j+")").addClass("hit");
+			if (enemy.smallShip.p2[0] == i && enemy.smallShip.p2[1] == j) 
+				$("#enemy tr:nth-child("+i+") td:nth-child("+j+")").addClass("hit");
+			$("#enemy tr td").unbind();
+			var count = 0;
+			$("#enemy .hit").each(function (element){
+				count ++;
+			});
+			if (count == 5) 
+				{
+					block = true;
+					state=2;
+					over = true;
+					block = true;
+					fetching_thread = setInterval(sendMove, 1500);
+				}
+			if (!block) {
+			bindEmAll();
+			block = true;
+			fetching_thread = setInterval(sendMove, 1500);
+			var opts = {
+				lines: 13, // The number of lines to draw
+				length: 11, // The length of each line
+				width: 5, // The line thickness
+				radius: 17, // The radius of the inner circle
+				corners: 1, // Corner roundness (0..1)
+				rotate: 0, // The rotation offset
+				color: '#FFF', // #rgb or #rrggbb
+				speed: 1, // Rounds per second
+				trail: 60, // Afterglow percentage
+				shadow: false, // Whether to render a shadow
+				hwaccel: false, // Whether to use hardware acceleration
+				className: 'spinner', // The CSS class to assign to the spinner
+				zIndex: 2e9, // The z-index (defaults to 2000000000)
+				top: 'auto', // Top position relative to parent in px
+				left: 'auto' // Left position relative to parent in px
+			};
+			var target = document.createElement("div");
+			document.body.appendChild(target);
+			var spinner = new Spinner(opts).spin(target);
+			overlay = iosOverlay({
+				text: "Waiting for opponent..",
+				spinner: spinner
+			});
+		}
+		}
+	</script>
+	<script type="text/javascript" src="../../js/tau.min.js"></script>
+<script src="../../js/app.js"></script>
+<script src="js/game.js"></script>
+<script src="../../bootstrap/js/bootstrap.min.js"></script>
+
+</body>
+</html>

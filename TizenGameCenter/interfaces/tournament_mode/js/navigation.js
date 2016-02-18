@@ -1,0 +1,16 @@
+$("#3G").click(function(){
+	window.localStorage.setItem("type",0);
+	window.location.href="../please-name-tournament/index.html";
+});
+$("#5G").click(function(){
+	window.localStorage.setItem("type",1);
+	window.location.href="../please-name-tournament/index.html";
+});
+$("#TB").click(function(){
+	window.localStorage.setItem("type",2);
+	window.location.href="../please-name-tournament/index.html";
+});
+$("#UN").click(function(){
+	window.localStorage.setItem("type",3);
+	window.location.href="../please-name-tournament/index.html";
+});

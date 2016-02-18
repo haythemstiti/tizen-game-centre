@@ -1,0 +1,151 @@
+<!Doctype html>
+<html>
+<head>
+	<title></title>
+	<script>
+		var yourScore = 0;
+		var hisScore = 0;
+		var question = "This is a random question";
+		var typed;
+
+	</script>
+	<script src="js/jquery.js"></script>
+	<script src="js/typed.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css">
+	<style type="text/css">
+		body
+		{
+			background-color: rgba(0, 0, 0, 0.85);
+			margin: 25px;
+		}
+		h3
+		{
+			color: #f0f0f0;
+		}
+		.buzzer
+		{
+			outline: 0px;
+			border: 0px;
+			font-size: 1.75em;
+			line-height: 1.40em;
+			font-weight: 500;
+			padding: 10px;
+		}
+		.typed, .typed-cursor
+	 	{
+	 		font-size: 1.75em;
+			line-height: 1.40em;
+			font-weight: 500;
+			text-align: left;
+		 	color: #f0f0f0;
+			text-shadow: #000 0px 1px 0px;
+			font-family: "Consolas", "Courier New", "Courier";
+	 	}
+		.typed-cursor{
+		    opacity: 1;
+		    -webkit-animation: blink 0.7s infinite;
+		    -moz-animation: blink 0.7s infinite;
+		    animation: blink 0.7s infinite;
+		}
+		@keyframes blink{
+		    0% { opacity:1; }
+		    50% { opacity:0; }
+		    100% { opacity:1; }
+		}
+		@-webkit-keyframes blink{
+		    0% { opacity:1; }
+		    50% { opacity:0; }
+		    100% { opacity:1; }
+		}
+		@-moz-keyframes blink{
+		    0% { opacity:1; }
+		    50% { opacity:0; }
+		    100% { opacity:1; }
+		}
+	</style>
+	<script>
+	/*
+	 $(function(){
+			typed= $(".typed").typed({
+	        strings: [question],
+	        typeSpeed: 200
+	      	});
+		});
+*/
+	  function answer(value,elem)
+		{
+			if (value == "true")
+			{
+				$("#"+elem).removeClass("btn-default");
+				$("#"+elem).addClass("btn-success");
+				yourScore++;
+			}
+			else
+			{
+				$("#"+elem).removeClass("btn-default");
+				$("#"+elem).addClass("btn-danger");
+				yourScore--;
+				hisScore++;
+			}
+			$("#yourScore").html(yourScore);
+			$("#oppScore").html(hisScore);
+			setTimeout(getQuestion,2000);
+		}
+	</script>
+</head>
+<body onload="getQuestion()">
+	<div id="scoreNav" style="color: white; margin-bottom: 25px; margin-top: 0px;">
+		<span style="display:inline-block; text-align: center; margin-right:0px; margin-left:0px; width:49%" id="you">You: <span id="yourScore" style="text-weight:bold">0</span></span>
+		<span style="display:inline-block; text-align: center; margin-right:0px; margin-left:0px; width:49%" id="opponent">Opponent: <span id="oppScore" style="text-weight:bold">0</span></span>
+	</div>
+	<div id="question" style="height: 170px">
+		<span class="typed">Question: </span>
+	</div>
+	<div id="answer" style="text-align: center">
+		<button style="display: inline-block" class="buzzer btn btn-success" onclick="answers()">Answer</button>
+	</div>
+	<div id="options" style="text-align: center; display:none;">
+	</div>
+	<script>
+		function getQuestion()
+		{
+			// NRODOHOM MEL SERVEUR
+			question = "Llmdss"+Math.floor(Math.random()*100);
+			var options = new Array("Option A", "Option B", "Option C");
+			var answer = 2;
+			//
+			$(".typed").typed({
+	        strings: [question],
+	        typeSpeed: 200
+	      	});
+			$("#options").html("");
+	      	$(".typed").html("Question: ");
+	      	
+			var htmlContent ='<h3 style="margin-top:0px">Choose your answer</h3>';
+			for (i=1; i<=3;i++)
+			{
+				if (i==answer)
+				{
+					htmlContent += '<button id="option'+i+'" style="width: 80%; margin:10px; margin-right:auto; margin-left: auto;" class="btn btn-default" onclick="answer(\'true\',\'option'+i+'\')">'+options[i-1]+'</button>';
+				}
+				else
+				{
+					htmlContent += '<button id="option'+i+'" style="width: 80%; margin:10px; margin-right:auto; margin-left: auto;" class="btn btn-default" onclick="answer(\'false\',\'option'+i+'\')">'+options[i-1]+'</button>';
+				}
+			}
+			$("#options").html(htmlContent);
+			$("#options").css("display","none");
+			$("#question").css("display","block");
+			$("#answer").css("display","block");
+		}
+		function answers()
+		{
+			$("#question").css("display","none");
+			$("#answer").css("display","none");
+			$("#options").css("display","block");
+		}
+		
+	</script>
+</body>
+</html>

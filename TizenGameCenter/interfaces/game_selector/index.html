@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+	<title>Game Center</title>
+	<link rel="stylesheet"  href="../../css/tau.min.css">
+	<link rel="stylesheet"  href="css/style.css">
+	<script src="../../js/jquery.js"></script>
+</head>
+<body>
+	<div id="vsectionchangerPage" class="ui-page">
+	<link rel="stylesheet"  href="../../css/sectionchanger.css">
+		<header class="ui-header">
+			<h2 class="ui-title">Selelect game</h2>
+		</header>
+		<div id="vsectionchanger" class="ui-content">
+			<!-- section changer has only one child. -->
+			<div>
+				<!-- THIS IS THE MAIN DIV !-->
+				<section class="ui-section-active" style="text-align:center" >
+					<div class="line">
+						<div class="half aviableGame">
+							<img src="images/tictactoe.png" width="64" height="64" id="tic">
+							<br>
+							<h6>Tic Tac Toe</h6>
+						</div>
+						<div class="half aviableGame">
+							<img src="images/battleship.png" width="64" height="64" id="battle">
+							<br>
+							<h6>Battleship</h6>
+						</div>
+					</div>
+					<div class="line">
+						<div class="half aviableGame">
+							<img src="images/pingpong.png" width="64" height="64" id="pingpong">
+							<br>
+							<h6>Ping Pong</h6>
+						</div>
+						<div class="half aviableGame">
+							<img src="images/quizit.png" width="64" height="64" id="quiz">
+							<br>
+							<h6>Quiz it!</h6>
+						</div>
+					</div>
+				</section>
+				<section style="text-align:center" id="tournamentBTN">
+					<div class="line">
+						<div class="half aviableGame">
+							<img src="images/cow.png" width="64" height="64" id="vt">
+							<br>
+							<h6>Vache / Tauraux</h6>
+						</div>
+						<div class="half">
+							<img src="" width="64" height="64">
+							<br>
+							<h6>Title here</h6>
+						</div>
+					</div>
+					<div class="line">
+						<div class="half">
+							<img src="" width="64" height="64">
+							<br>
+							<h6>Title here</h6>
+						</div>
+						<div class="half">
+							<img src="" width="64" height="64">
+							<br>
+							<h6>Title here</h6>
+						</div>
+					</div>
+				</section>
+				<!-- TO ADD A NEW SET OF GAMES :
+					1- Create a section in the MAIN DIV
+					2- Each section must contain 2 lines : div of class .line
+					3- Each line must contain 2 halfs : div of class .half 
+					4- Each half has an img a br and a h6, the image is 64*64 
+					5- If the game is aviable add class .aviableGame to the parent half
+					6- Add Id to each aviable game and reference that id in ./js/navigation.js
+					7- Do the rest of the "charm"
+				!-->
+			</div>
+		</div>
+		<script src="../../js/vsection.js"></script>	
+			</div>
+<script type="text/javascript" src="../../js/tau.min.js"></script>
+<script src="../../js/app.js"></script>
+<script src="js/navigation.js"></script>
+</body>
+</html>
